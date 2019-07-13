@@ -73,7 +73,7 @@ class APIHandler:
     handle events must be different, enclosing it to an JSON ingest capability approach.
      Triggers config will be those JSONs"""
 
-    def define_event(self, event_name, event_frame_config, on_not_found_attribute_callback=None):
+    def define_event(self, event_name, event_filters_config, on_not_found_attribute_callback=None):
         """To create API Events. event_name is an event alias. event_frame_config is a JSON which keys are keyword
          returned by the API at certain event, and values are an AsyncApiAssistant valid filter (aaa_filter_types.py).
          on_not_found_attribute_callback is a callback called if during a filter some keyword is not found in the
@@ -82,7 +82,7 @@ class APIHandler:
         is_defined_yet = self._event_filters.get(event_name, False)
 
         if not is_defined_yet:
-            self._event_filters[event_name] = event_filter.EventFilter(event_name, event_frame_config,
+            self._event_filters[event_name] = event_filter.EventFilter(event_name, event_filters_config,
                                                                        on_not_found_attribute_callback)
             return self._event_filters[event_name]
         else:
@@ -96,7 +96,7 @@ class APIHandler:
             await self._node_types['trigger'][trigger](data_frame)
 
     @staticmethod
-    async def http_request(request_type, kwargs={}):
+    async def http_request(request_type, kwargs):
         """This method purpose is being "request" part on the handler architecture. Just make HTTP request and return
         the response. request_type can be GET, POST, PUT and DELETE. kwargs are the params of http_request at
         ingest_ports.py"""
@@ -127,6 +127,13 @@ class APIHandler:
 
     def get_websocket(self, websocket_name):
         return self._websockets[websocket_name]
+
+    def shutdown(self):
+        for websocket in self._websockets:
+            websocket.close()
+
+        """for socket in self._sockets:
+            socket.close()"""
 
 
 """    async def socket_conection(self, socket_name, url, port, preprocessor, on_conection=False):

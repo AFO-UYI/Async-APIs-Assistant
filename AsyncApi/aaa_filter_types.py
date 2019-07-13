@@ -39,7 +39,7 @@ class CuantityRange(FilterType):
         self._min_values = []
         self._max_values = []
         self._adding_alias = {'greater': self.add_min_value,
-                              'less': self.add_max_value,
+                              'lower': self.add_max_value,
                               'between': self.add_range_value,
                               'equal': self.add_equal_value}
 
