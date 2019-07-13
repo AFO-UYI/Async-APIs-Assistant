@@ -8,6 +8,8 @@ The idea is isolate some part of API handling. Encapsulating those parts more at
 
 A design to solve the need for separate parts have 4 types of parts, distributed on a general API handlings workflow.
 
+![API Handling diagram](https://raw.githubusercontent.com/AFO-UYI/Async-APIs-Assistant/develop/readme_img/diagram%20api%20handler.png)
+
 Inputs, parsers and a half of event filters are totally attached to APIs design. The other half of event filters and triggers are client needs side.
 
 Async APIs Assistant gives tools to compose the API side being as respectful to SOLID principle as posible, writing in a single file one time only all the inputs, parsers and events, and this is really important considering that an API handler must be maintained often each time the API is updated.
