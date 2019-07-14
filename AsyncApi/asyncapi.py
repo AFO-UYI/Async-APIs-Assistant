@@ -70,7 +70,7 @@ class APIHandler:
             return node_function
 
     """Because Events are the closest part to Triggers, and triggers are the less attached parts to APIs, the way to 
-    handle events must be different, enclosing it to an JSON ingest capability approach.
+    handle events must be different, enclosing it to a JSON ingest capability approach.
      Triggers config will be those JSONs"""
 
     def define_event(self, event_name, event_filters_config, on_not_found_attribute_callback=None):
@@ -135,8 +135,7 @@ class APIHandler:
         """for socket in self._sockets:
             socket.close()"""
 
-
-"""    async def socket_conection(self, socket_name, url, port, preprocessor, on_conection=False):
+    async def socket_connection(self, socket_name, url, port, preprocessor, on_conection=False):
         socket_exists_yet = self._sockets.get(socket_name, False)
 
         if socket_exists_yet:
@@ -146,19 +145,19 @@ class APIHandler:
         self._sockets[socket_name] = socket
         if on_conection:
             await on_conection(socket)
-        async for msg in socket:
+        while socket.is_open:
+            msg = await socket.read_msg()
             await preprocessor(msg, socket)
 
     def get_socket(self, socket_name):
         return self._sockets[socket_name]
-"""
 
 
 def _missed_node(node_type, node_name):
-    """Is an interface function if dict.get() not find a keyword"""
+    """Is an interface function to call errors if dict.get() not find a keyword"""
     raise Errors.MissedNode(node_type, node_name)
 
 
 def _bad_petition_trigger(request_type):
-    """Is an interface function if dict.get() not find a keyword"""
+    """Is an interface function to call errors if dict.get() not find a keyword"""
     raise Errors.BadHTTPPetition(request_type)

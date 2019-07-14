@@ -39,7 +39,7 @@ factories according to https://docs.python.org/3/library/asyncio-eventloop.html#
 This will be delayed until Cython will be studied with plain sockets on C++ or some python library.
 
 
-async def socket(url, port, bit_size=-1):
+async def socket(url, port, bit_size=4098):
     new_socket = Socket(bit_size)
     await new_socket.connect(url, port)
     return new_socket
@@ -49,20 +49,20 @@ class Socket:
     def __init__(self, bit_size):
         self._writer = None
         self._reader = None
-        self._is_open = True
+        self.is_open = True
         self._bit_size = bit_size
 
     async def connect(self, url, port):
         self._reader, self._writer = await open_connection(url, port)
 
-    async def __aiter__(self):
-        while self._is_open:
-            yield (await self._reader.read(self._bit_size)).decode('utf-8')
+    async def read_msg(self):
+        mensaje = await self._reader.read(self._bit_size)
+        return mensaje.decode('utf-8')
 
     async def send_str(self, message):
         self._writer.write(message.encode('utf-8'))
 
     async def close(self):
-        self._is_open = False
+        self.is_open = False
         self._writer.close()
 """
