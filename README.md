@@ -22,7 +22,7 @@ Parsers can be pre-processors and processors. The purpose is just convert input 
 
 Event filters consists in define the filters needs for each data type holded by a data frame (a.k.a. an API message converted into a dictionary). Eg: maybe a data frame holds a number as value for the key 'age' and a trigger must be called if that age is between certain numbers. Then you must instance an Event filter with a `CuantityRange` filter object attached to 'age' keyword . The proper event filter must be called at the end of processors with `your_api_handler.run_event('event_you_want', data_frame)`, but this could change.
 
-Triggers are just the behaviour you want to preform if a recieved data frame fulfills event filters. After define the trigger function you must to add it into an event filter with the trigger name and filter conditions. Eg: you did a trigger named 'mid_age', and wants call it if the age keyword in a data frame is between 20 and 40. You add it to event filter you wants as follows `event_you_want.add_trigger_filter('mid_age', {'age': {'being': 'between', 'values': [20, 40]}})`.
+Triggers are just the behaviour you want to perform if a recieved data frame fulfills event filters. After define the trigger function you must to add it into an event filter with the trigger name and filter conditions. Eg: you did a trigger named 'mid_age', and wants call it if the age keyword in a data frame is between 20 and 40. You add it to event filter you wants as follows `event_you_want.add_trigger_filter('mid_age', {'age': {'being': 'between', 'values': [20, 40]}})`.
 
 # Usage
 
