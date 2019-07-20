@@ -1,0 +1,10 @@
+
+\.idea/
+
+AsyncApi/__pycache__/
+
+user_data\.py
+
+__pycache__/
+
+__main__\.py
