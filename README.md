@@ -4,7 +4,7 @@ A Python library to organise and make easier API handlings.
 
 # Sketching the idea
 
-The idea is isolate some part of API handling. Encapsulating those parts more attached to API design separately to parts more close to clients needs.
+The main idea is to isolate some parts of API handling, encapsulating those parts more attached to API design separately to parts closer to clients needs.
 
 A design to solve the need for separate parts have 4 types of parts, distributed on a general API handlings workflow.
 
@@ -12,23 +12,23 @@ A design to solve the need for separate parts have 4 types of parts, distributed
 
 Inputs, parsers and a half of event filters are totally attached to APIs design. The other half of event filters and triggers are client needs side.
 
-Async APIs Assistant gives tools to compose the API side being as respectful to SOLID principle as posible, writing in a single file one time only all the inputs, parsers and events, and this is really important considering that an API handler must be maintained often each time the API is updated.
+Async APIs Assistant gives tools to compose the API side being as respectful to SOLID principle as posible, writing once in a single file all the inputs, parsers and events, and this is really important considering that an API handler must be maintained often each time the API is updated.
 
-On the other hand, for the client side parts, events filters and triggers can be configured with a JSON with proper keywords-values. So its really dynamic and accesible to changes. (Explicit functions that expects those json to configure filters and triggers are pending to implement. Will be implemented when Cython investigation finish).
+Besides, for the client side parts, events filters and triggers can be configured with a JSON with proper keywords-values. So its really dynamic and accesible to changes (explicit functions that expects those json to configure filters and triggers are pending to implement. They will be implemented when Cython investigation finishes).
 
-Inputs can be http request, websockets or plain sockets (a.k.a. ingest ports) (plain sockets are pending to implement because AsyncIO raise some errors when attempt a connection with `open_connection()`. There are a few alternatives being studied to implement the alternative that fits better.)
+Inputs can be http requests, websockets or plain sockets, a.k.a. ingest ports (plain sockets are pending to implement because AsyncIO raise some errors when attempt a connection with `open_connection()`. There are a few alternatives being studied to implement the alternative that fits better.)
 
 Parsers can be pre-processors and processors. The purpose is just convert input messages into usable python dictionaries. Processors is the part that really convert messages. Pre-processors purpose is, in case of have an ingest port that return diferents types of messages, a pre-processor makes a minimal analisis to chose which processor must to be used.
 
 Event filters consists in define the filters needs for each data type holded by a data frame (a.k.a. an API message converted into a dictionary). Eg: maybe a data frame holds a number as value for the key 'age' and a trigger must be called if that age is between certain numbers. Then you must instance an Event filter with a `CuantityRange` filter object attached to 'age' keyword . The proper event filter must be called at the end of processors with `your_api_handler.run_event('event_you_want', data_frame)`, but this could change.
 
-Triggers are just the behaviour you want to perform if a recieved data frame fulfills event filters. After define the trigger function you must to add it into an event filter with the trigger name and filter conditions. Eg: you did a trigger named 'mid_age', and wants call it if the age keyword in a data frame is between 20 and 40. You add it to event filter you wants as follows `event_you_want.add_trigger_filter('mid_age', {'age': {'being': 'between', 'values': [20, 40]}})`.
+Triggers are just the behaviour you want to perform if a recieved data frame fulfills event filters. After define the trigger function you must add it into an event filter with the trigger name and filter conditions. Eg: you did a trigger named 'mid_age', and you want to call it if the age keyword in a data frame is between 20 and 40. You add it to the event filter you wants as follows: `event_you_want.add_trigger_filter('mid_age', {'age': {'being': 'between', 'values': [20, 40]}})`.
 
 # Usage
 
 ### Async API Assistant Core
 
-First of all, you must need instance a new API handler object. `your_api_handler = AsyncApi.create_api_handler()`
+First of all, you have to instantiate a new API handler object. `your_api_handler = AsyncApi.create_api_handler()`
 
 * To define a part you must use `define_node()` decorator as follows:
 ```python
