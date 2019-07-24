@@ -6,7 +6,7 @@ A Python library to organise and make easier API handlings.
 
 The main idea is to isolate some parts of API handling, encapsulating those parts more attached to API design separately to parts closer to clients needs.
 
-A design to solve the need for separate parts have 4 types of parts, distributed on a general API handlings workflow.
+A design to solve the need for separate parts has 4 types of parts, distributed on a general API handlings workflow.
 
 ![API Handling diagram](https://raw.githubusercontent.com/AFO-UYI/Async-APIs-Assistant/develop/readme_img/diagram%20api%20handler.png)
 
